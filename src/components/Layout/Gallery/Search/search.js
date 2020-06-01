@@ -26,7 +26,11 @@ const Search = ({ Setalert, Searchnasaimg }) => {
         value={text}
         name="text"
       ></input>
-      <input type="submit" value="Lets Go!"></input>
+      <input
+        type="submit"
+        value="Lets Go!"
+        className="btn btn-dark btn-block"
+      ></input>
     </form>
   );
 };

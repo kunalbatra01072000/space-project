@@ -20,11 +20,15 @@ const Weatherui = ({ Weat, loadweather, getlocation, error }) => {
       <Fragment>
         <div className="container">
           <img src={Weat.icon} alt={Weat.weather} style={weatherimgstyle}></img>
-          <h4>Temperature: {Weat.temp} C</h4>
-          <h4>Min Temperature: {Weat.mintemp} C</h4>
-          <h4>Max Temperature: {Weat.maxtemp} C</h4>
-
-          <h4>Humidity: {Weat.humidity}</h4>
+          <h3>{Weat.city}</h3>
+          <h4>Temperature: {Weat.temp} &#8451; </h4>
+          <h4>Min Temperature: {Weat.mintemp} &#8451;</h4>
+          <h4>Max Temperature: {Weat.maxtemp} &#8451;</h4>
+          <h4>Pressure: {Weat.pressure} hPa</h4>
+          <h4>Humidity: {Weat.humidity}%</h4>
+          <h4>
+            Wind : {Weat.windspeed} m/s {Weat.winddir} &#176;
+          </h4>
         </div>
       </Fragment>
     );

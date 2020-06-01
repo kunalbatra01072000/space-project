@@ -18,33 +18,12 @@ function App() {
   const [imggallery, setimggallery] = useState([]);
   const [defaultimg, setdefaultimg] = useState(true);
 
-  const [events, setevents] = useState([]);
-  const [eventload, seteventload] = useState(false);
   const [nasaimginfo, setnasaimginfo] = useState({});
   const [nasaimginfoload, setnasaimginfoload] = useState(false);
-  const eventfinder = async () => {
-    seteventload(true);
-    const res = await axios.get(
-      `https://eonet.sci.gsfc.nasa.gov/api/v3/events?limit=10&status=open`
-    );
 
-    setevents(
-      res.data.events.map((info) => {
-        return {
-          title: info.title,
-          category: info.categories[0].title,
-          id: info.id,
-          date: info.geometry[0].date,
-          magnunit: info.geometry[0].magnitudeUnit,
-          magnval: info.geometry[0].magnitudeValue,
-        };
-      })
-    );
-    seteventload(false);
-  };
   useEffect(() => {
     getimageofday();
-    eventfinder();
+
     getmarsweather();
     // eslint-disable-next-line
   }, []);
@@ -54,6 +33,7 @@ function App() {
 
   const getmarsweather = async () => {
     setmarsload(true);
+
     const res = await axios.get(
       `https://api.nasa.gov/insight_weather/?api_key=4XV4Fy9b0n9Om2jY4jsrcEYB26aPhvTOUvYd03Xb&feedtype=json&ver=1.0`
     );
@@ -64,9 +44,11 @@ function App() {
       Object.entries(soldata).map(([sol, data]) => {
         return {
           sol: sol,
-          maxtemp: data.AT.mx,
-          mintemp: data.AT.mn,
+          maxtemp: ((data.AT.mx - 32) * (5 / 9)).toFixed(2),
+          mintemp: ((data.AT.mn - 32) * (5 / 9)).toFixed(2),
           windspeed: data.HWS.av,
+          earthdate: new Date(data.First_UTC).toDateString(),
+          pressure: data.PRE.av,
         };
       })
     );
@@ -80,7 +62,7 @@ function App() {
   };
   const getimageofday = async () => {
     setloading(true);
-    const res = await axios
+    await axios
       .get(
         `https://api.nasa.gov/planetary/apod?api_key=kimrT0XXGPjDplMQ0bUIxe4zDzbz9m5DgOVru0Zy`
       )
@@ -100,10 +82,10 @@ function App() {
       `https://images-api.nasa.gov/search?q=${text}&media_type=image`
     );
 
-    const final = res.data.collection.items.slice(0, 30).map((img) => {
+    const final = res.data.collection.items.map((img) => {
       return {
         imgurl: img.links[0].href,
-        imgtitle: img.data[0].title,
+        imgtitle: img.data[0].title.substr(0, 100),
         imgid: img.data[0].nasa_id,
       };
     });
@@ -122,7 +104,9 @@ function App() {
           photographer: data.collection.items[0].data[0].photographer,
           title: data.collection.items[0].data[0].title,
           descr: data.collection.items[0].data[0].description,
-          date: data.collection.items[0].data[0].date_created,
+          date: new Date(
+            data.collection.items[0].data[0].date_created
+          ).toDateString(),
           imgurl: data.collection.items[0].links[0].href,
         };
       });
@@ -157,23 +141,13 @@ function App() {
                 exact
                 path="/space-project/mars-weather"
                 render={(props) => (
-                  <Marsweatherfinder
-                    marsload={marsload}
-                    weekinfo={weekinfo}
-                    getmarsweather={getmarsweather}
-                  />
+                  <Marsweatherfinder marsload={marsload} weekinfo={weekinfo} />
                 )}
               ></Route>
               <Route
                 exact
                 path="/space-project/natural-event"
-                render={(props) => (
-                  <Naturaleventfinder
-                    eventload={eventload}
-                    eventfinder={eventfinder}
-                    events={events}
-                  />
-                )}
+                component={Naturaleventfinder}
               ></Route>
               <Route
                 exact

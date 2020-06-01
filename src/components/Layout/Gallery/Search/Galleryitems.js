@@ -1,9 +1,10 @@
 import React from "react";
 import Galleryitem from "./galleryitem";
+import Alert from "./Alert";
 
-const Galleryitems = ({ imggallery, defaultimg }) => {
+const Galleryitems = ({ imggallery, defaultimg, Setalert }) => {
   if (imggallery.length === 0 && defaultimg === false) {
-    return <div>Enter a valid search item.</div>;
+    return <Alert alerttext={`No search results...`} />;
   } else if (defaultimg === true) {
     return null;
   } else {

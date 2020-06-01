@@ -12,10 +12,10 @@ const Navbar = () => {
             <Link to="/space-project/mars-weather">Mars weather</Link>
           </li>
           <li>
-            <a href="/">About</a>
+            <Link to="/space-project">About</Link>
           </li>
           <li>
-            <Link to="/space-project/natural-event">Disasters</Link>
+            <Link to="/space-project/natural-event">Recent Disasters</Link>
           </li>
           <li>
             <Link to="/space-project/gallery">Gallery</Link>

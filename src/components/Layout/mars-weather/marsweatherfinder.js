@@ -2,7 +2,7 @@ import React from "react";
 import Spinner from "../Spinner";
 import Weathercard from "./weather-card";
 
-const Marsweatherfinder = ({ marsload, getmarsweather, weekinfo }) => {
+const Marsweatherfinder = ({ marsload, weekinfo }) => {
   if (marsload === true) {
     return <Spinner />;
   } else {

@@ -30,6 +30,9 @@ const Weatherfinder = () => {
       icon: `http://openweathermap.org/img/wn/${res.data.weather[0].icon}@2x.png`,
       weather: res.data.weather[0].main,
       temp: res.data.main.temp,
+      windspeed: res.data.wind.speed,
+      winddir: res.data.wind.deg,
+      city: res.data.name,
     });
 
     setloadweather(false);

@@ -6,7 +6,7 @@ const Eventcard = ({ event }) => {
       <h3>{event.title}</h3>
       <p>Category: {event.category}</p>
       <p>
-        Date: {event.date} <br />
+        Date Started: {event.date} <br />
       </p>
       {event.magnunit && (
         <p>
@@ -14,6 +14,8 @@ const Eventcard = ({ event }) => {
           Magnitude :{event.magnval} {event.magnunit}
         </p>
       )}
+      {event.closed && <p> Ended on : {event.closed}</p>}
+      {!event.closed && <p className="danger">Active</p>}
     </div>
   );
 };

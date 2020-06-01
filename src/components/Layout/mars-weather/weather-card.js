@@ -4,9 +4,11 @@ const Weathercard = ({ dayinfo }) => {
   return (
     <div className="card">
       <h4>Martian Day: {dayinfo.sol}</h4>
-      <p>Max Temp: {dayinfo.maxtemp}</p>
-      <p>Min Temp: {dayinfo.mintemp}</p>
-      <p>Windspeed: {dayinfo.windspeed}</p>
+      <h4>Earth Day: {dayinfo.earthdate}</h4>
+      <p>Max Temp: {dayinfo.maxtemp} &#8451;</p>
+      <p>Min Temp: {dayinfo.mintemp} &#8451;</p>
+      <p>Windspeed: {dayinfo.windspeed} m/s</p>
+      <p>Pressure: {dayinfo.pressure} Pa</p>
     </div>
   );
 };

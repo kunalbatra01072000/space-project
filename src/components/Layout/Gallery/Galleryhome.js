@@ -13,7 +13,11 @@ const Galleryhome = ({
     <div>
       <Search Setalert={Setalert} Searchnasaimg={Searchnasaimg} />
       <Alert alerttext={alerttext} />
-      <Galleryitems imggallery={imggallery} defaultimg={defaultimg} />
+      <Galleryitems
+        imggallery={imggallery}
+        defaultimg={defaultimg}
+        Setalert={Setalert}
+      />
     </div>
   );
 };
