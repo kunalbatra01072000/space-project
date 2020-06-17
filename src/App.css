@@ -405,6 +405,13 @@ button {
   padding: 0.7rem;
   width: 50px;
 }
+
+.gallery-item {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 60px;
+}
 /* Mobile Styles */
 @media (max-width: 800px) {
   .hide-sm {
@@ -457,5 +464,13 @@ button {
   }
   .dropdown li:hover {
     background-color: black;
+  }
+
+  .gallery-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 60px;
   }
 }

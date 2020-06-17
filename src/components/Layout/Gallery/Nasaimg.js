@@ -11,15 +11,7 @@ const Nasaimg = ({ nasaimginfo, getnasaimginfo, match, nasaimginfoload }) => {
     return <Spinner />;
   } else {
     return (
-      <div
-        className="container card"
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-          marginTop: "60px",
-        }}
-      >
+      <div className="container card  gallery-item" style={{}}>
         <img
           src={nasaimginfo.imgurl}
           style={{ width: "400px", height: "400px", margin: "10px 50px" }}
