@@ -6,6 +6,16 @@ const Weatherfinder = () => {
   const [Weat, setWeat] = useState({});
   const [loadweather, setloadweather] = useState(false);
   const [error, seterror] = useState("");
+  const [showui, setshowui] = useState(false);
+  const onClick = (e) => {
+    if (showui === false) {
+      getlocation();
+      setshowui(true);
+    } else {
+      setshowui(false);
+    }
+  };
+
   const getlocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(getweather, showerror);
@@ -39,16 +49,28 @@ const Weatherfinder = () => {
   };
 
   const showerror = (error) => {
-    seterror(error.code);
+    seterror(error.message);
+    // console.log(error);
   };
 
   return (
-    <Weatherui
-      Weat={Weat}
-      loadweather={loadweather}
-      getlocation={getlocation}
-      error={error}
-    />
+    <div style={{ borderTop: "3px solid #333" }}>
+      <button
+        type="submit"
+        className="btn btn-dark btn-block my-3"
+        onClick={onClick}
+      >
+        {showui === true ? "Clear" : "Get the weather updates"}
+      </button>
+      {showui && (
+        <Weatherui
+          Weat={Weat}
+          loadweather={loadweather}
+          getlocation={getlocation}
+          error={error}
+        />
+      )}
+    </div>
   );
 };
 

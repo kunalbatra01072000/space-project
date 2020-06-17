@@ -6,9 +6,9 @@ const Imageofday = ({ getimageofday, loading, imgobj }) => {
   } else {
     return (
       <Fragment>
-        <img src={imgobj.imgurl} alt="img-of-day"></img>
+        <img src={imgobj.imgurl} alt="img-of-day" className="img-of-day"></img>
         <h1>{imgobj.imgtitle}</h1>
-        <p>{imgobj.imgexp}</p>
+        <p style={{ marginBottom: "2rem" }}>{imgobj.imgexp}</p>
       </Fragment>
     );
   }

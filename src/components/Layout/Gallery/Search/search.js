@@ -25,11 +25,13 @@ const Search = ({ Setalert, Searchnasaimg }) => {
         placeholder="Search..."
         value={text}
         name="text"
+        style={{ fontSize: "1.5rem" }}
       ></input>
       <input
         type="submit"
         value="Lets Go!"
         className="btn btn-dark btn-block"
+        style={{ fontSize: "1.5rem" }}
       ></input>
     </form>
   );

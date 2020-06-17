@@ -1,5 +1,5 @@
 import React from "react";
-import Spinner from "../Spinner";
+import Spinner from "../Layout/Spinner";
 import Weathercard from "./weather-card";
 
 const Marsweatherfinder = ({ marsload, weekinfo }) => {

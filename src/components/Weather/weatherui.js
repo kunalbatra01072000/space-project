@@ -1,24 +1,34 @@
-import React, { Fragment, useEffect } from "react";
-import Spinner from "../Spinner";
-
-const Weatherui = ({ Weat, loadweather, getlocation, error }) => {
-  useEffect(() => {
-    getlocation();
-    // eslint-disable-next-line
-  }, []);
-
+import React, { Fragment } from "react";
+import Spinner from "../Layout/Spinner";
+import Stop from "./forbidden.png";
+const Weatherui = ({ Weat, loadweather, error }) => {
   if (loadweather) {
     return <Spinner />;
   } else if (error !== "") {
     return (
       <Fragment>
-        <h4>{error}</h4>
+        <div className="Error-Block">
+          <img
+            src={Stop}
+            alt=""
+            style={{
+              width: "64px",
+              margin: "auto",
+              display: "block",
+              marginBottom: "1rem",
+            }}
+          ></img>
+          <h4 className="text-center">{error}</h4>
+        </div>
       </Fragment>
     );
   } else {
     return (
       <Fragment>
-        <div className="container">
+        <div
+          className="container text-center card"
+          style={{ marginBottom: "2rem" }}
+        >
           <img src={Weat.icon} alt={Weat.weather} style={weatherimgstyle}></img>
           <h3>{Weat.city}</h3>
           <h4>Temperature: {Weat.temp} &#8451; </h4>

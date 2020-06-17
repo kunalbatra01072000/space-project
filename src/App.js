@@ -2,14 +2,15 @@ import React, { useState, Fragment, useEffect } from "react";
 import axios from "axios";
 import Navbar from "./components/Layout/Navbar";
 import Imageofday from "./components/Layout/Imageofday";
-import Weatherfinder from "./components/Layout/Weather/weatherfinder";
+import Weatherfinder from "./components/Weather/weatherfinder";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Marsweatherfinder from "./components/Layout/mars-weather/marsweatherfinder";
+import Marsweatherfinder from "./components/mars-weather/marsweatherfinder";
 import Naturaleventfinder from "./components/Naturalevents/Naturaleventfinder";
 
 import Nasaimg from "./components/Layout/Gallery/Nasaimg";
 import Galleryhome from "./components/Layout/Gallery/Galleryhome";
+import About from "./components/About/About";
 
 function App() {
   const [loading, setloading] = useState(false);
@@ -20,7 +21,7 @@ function App() {
 
   const [nasaimginfo, setnasaimginfo] = useState({});
   const [nasaimginfoload, setnasaimginfoload] = useState(false);
-
+  const [imgGalleryload, setimgGalleryload] = useState(false);
   useEffect(() => {
     getimageofday();
 
@@ -78,6 +79,7 @@ function App() {
   };
 
   const Searchnasaimg = async (text) => {
+    setimgGalleryload(true);
     const res = await axios.get(
       `https://images-api.nasa.gov/search?q=${text}&media_type=image`
     );
@@ -92,6 +94,7 @@ function App() {
     console.log(final);
     setimggallery(final);
     setdefaultimg(false);
+    setimgGalleryload(false);
   };
 
   const getnasaimginfo = async (nasa_id) => {
@@ -172,10 +175,12 @@ function App() {
                       alerttext={alerttext}
                       imggallery={imggallery}
                       defaultimg={defaultimg}
+                      imgGalleryload={imgGalleryload}
                     />
                   );
                 }}
               ></Route>
+              <Route exact path="/space-project/about" component={About} />
             </Switch>
           </div>
         </Fragment>

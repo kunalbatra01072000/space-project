@@ -2,7 +2,7 @@ import React from "react";
 
 const Weathercard = ({ dayinfo }) => {
   return (
-    <div className="card">
+    <div className="card" style={{ fontSize: "1.5rem", marginBottom: "2rem" }}>
       <h4>Martian Day: {dayinfo.sol}</h4>
       <h4>Earth Day: {dayinfo.earthdate}</h4>
       <p>Max Temp: {dayinfo.maxtemp} &#8451;</p>
