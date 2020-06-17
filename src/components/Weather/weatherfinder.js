@@ -29,7 +29,7 @@ const Weatherfinder = () => {
     const lon = pos.coords.longitude;
     const lat = pos.coords.latitude;
     const res = await axios.get(
-      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=66aec471ccd8d0cd8b17afc9e9c01be2`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=66aec471ccd8d0cd8b17afc9e9c01be2`
     );
 
     setWeat({
