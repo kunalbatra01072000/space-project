@@ -7,25 +7,36 @@ const Navbar = () => {
   const onClick = (e) => {
     setshowdrop(!showdrop);
   };
+  const hidenav = () => setshowdrop(false);
   const dropdown = (
     <div className="text-center dropdown ">
       <ul>
         <li>
-          <Link to="/space-project/">Home</Link>
+          <Link to="/space-project/" onClick={hidenav}>
+            Home
+          </Link>
         </li>
         <li>
           {" "}
-          <Link to="/space-project/mars-weather">Mars weather</Link>
+          <Link to="/space-project/mars-weather" onClick={hidenav}>
+            Mars weather
+          </Link>
         </li>
         <li>
           {" "}
-          <Link to="/space-project/natural-event">Recent Disasters</Link>
+          <Link to="/space-project/natural-event" onClick={hidenav}>
+            Recent Disasters
+          </Link>
         </li>
         <li>
-          <Link to="/space-project/gallery">Gallery</Link>
+          <Link to="/space-project/gallery" onClick={hidenav}>
+            Gallery
+          </Link>
         </li>
         <li>
-          <Link to="/space-project/about">About</Link>
+          <Link to="/space-project/about" onClick={hidenav}>
+            About
+          </Link>
         </li>
       </ul>
     </div>
@@ -59,12 +70,31 @@ const Navbar = () => {
         </ul>
       </nav>
       <div className="menu-icon ">
-        <img
-          src={Menuicon}
-          alt="Menu"
-          className="menu-img-icon"
-          onClick={onClick}
-        />
+        <div className="mobile-nav" style={{ position: "relative" }}>
+          <img
+            src={Menuicon}
+            alt="Menu"
+            className="menu-img-icon"
+            onClick={onClick}
+            style={{
+              display: "block",
+              paddingTop: "1rem",
+              paddingBottom: "1rem",
+            }}
+          />
+          <img
+            src={logo}
+            alt=""
+            style={{
+              width: "50px",
+              display: "block",
+              position: "absolute",
+              top: "7%",
+              left: "45%",
+            }}
+            className=""
+          />
+        </div>
         {showdrop && dropdown}
       </div>
     </Fragment>
