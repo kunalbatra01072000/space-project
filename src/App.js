@@ -1,21 +1,21 @@
-import React, { useState, Fragment, useEffect } from "react";
-import axios from "axios";
-import Navbar from "./components/Layout/Navbar";
-import Imageofday from "./components/Layout/Imageofday";
-import Weatherfinder from "./components/Weather/weatherfinder";
-import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Marsweatherfinder from "./components/mars-weather/marsweatherfinder";
-import Naturaleventfinder from "./components/Naturalevents/Naturaleventfinder";
+import React, { useState, Fragment, useEffect } from 'react';
+import axios from 'axios';
+import Navbar from './components/Layout/Navbar';
+import Imageofday from './components/Layout/Imageofday';
+import Weatherfinder from './components/Weather/weatherfinder';
+import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Marsweatherfinder from './components/mars-weather/marsweatherfinder';
+import Naturaleventfinder from './components/Naturalevents/Naturaleventfinder';
 
-import Nasaimg from "./components/Layout/Gallery/Nasaimg";
-import Galleryhome from "./components/Layout/Gallery/Galleryhome";
-import About from "./components/About/About";
+import Nasaimg from './components/Layout/Gallery/Nasaimg';
+import Galleryhome from './components/Layout/Gallery/Galleryhome';
+import About from './components/About/About';
 
 function App() {
   const [loading, setloading] = useState(false);
   const [imgobj, setimgobj] = useState({});
-  const [alerttext, setalerttext] = useState("");
+  const [alerttext, setalerttext] = useState('');
   const [imggallery, setimggallery] = useState([]);
   const [defaultimg, setdefaultimg] = useState(true);
 
@@ -26,7 +26,7 @@ function App() {
     getimageofday();
 
     getmarsweather();
-    // eslint-disable-next-line
+    //eslint - disable - next - line;
   }, []);
   const [marsload, setmarsload] = useState(false);
 
@@ -36,42 +36,55 @@ function App() {
     setmarsload(true);
 
     const res = await axios.get(
-      `https://api.nasa.gov/insight_weather/?api_key=4XV4Fy9b0n9Om2jY4jsrcEYB26aPhvTOUvYd03Xb&feedtype=json&ver=1.0`
+      `https://api.nasa.gov/insight_weather/?api_key=xRA5gFNAPdDB04reIimmetg6Of4zJXoCm9ycjoVZ&feedtype=json&ver=1.0`
     );
+    const { sol_keys } = res.data;
+    // console.log(arr);
+    const arr = sol_keys.map((sk) => {
+      const { PRE, Season } = res.data[sk];
+      return {
+        season: Season,
+        sol: sk,
+        Pavg: PRE.av,
+        Pmin: PRE.mn,
+        Pmax: PRE.mx,
+      };
+    });
 
-    const { sol_keys, validity_checks, ...soldata } = res.data;
+    setweekinfo(arr);
 
-    setweekinfo(
-      Object.entries(soldata).map(([sol, data]) => {
-        return {
-          sol: sol,
-          maxtemp: ((data.AT.mx - 32) * (5 / 9)).toFixed(2),
-          mintemp: ((data.AT.mn - 32) * (5 / 9)).toFixed(2),
-          windspeed: data.HWS.av,
-          earthdate: new Date(data.First_UTC).toDateString(),
-          pressure: data.PRE.av,
-        };
-      })
-    );
+    // setweekinfo(
+    //   Object.entries(soldata).map(([sol, data]) => {
+    //     return {
+    //       sol: sol,
+    //       maxtemp: ((data.AT.mx - 32) * (5 / 9)).toFixed(2),
+    //       mintemp: ((data.AT.mn - 32) * (5 / 9)).toFixed(2),
+    //       windspeed: data.HWS.av,
+    //       earthdate: new Date(data.First_UTC).toDateString(),
+    //       pressure: data.PRE.av,
+    //     };
+    //   })
+    // );
 
     setmarsload(false);
   };
-
+  //kimrT0XXGPjDplMQ0bUIxe4zDzbz9m5DgOVru0Zy
   const Setalert = (text) => {
     setalerttext(text);
-    setTimeout(() => setalerttext(""), 3000);
+    setTimeout(() => setalerttext(''), 3000);
   };
   const getimageofday = async () => {
     setloading(true);
     await axios
       .get(
-        `https://api.nasa.gov/planetary/apod?api_key=kimrT0XXGPjDplMQ0bUIxe4zDzbz9m5DgOVru0Zy`
+        `https://api.nasa.gov/planetary/apod?api_key=xRA5gFNAPdDB04reIimmetg6Of4zJXoCm9ycjoVZ`
       )
       .then((res) => {
         setimgobj({
           imgurl: res.data.url,
           imgexp: res.data.explanation,
           imgtitle: res.data.title,
+          mediaType: res.data.media_type,
         });
       });
 
@@ -91,7 +104,6 @@ function App() {
         imgid: img.data[0].nasa_id,
       };
     });
-    console.log(final);
     setimggallery(final);
     setdefaultimg(false);
     setimgGalleryload(false);
@@ -103,6 +115,7 @@ function App() {
       .get(`https://images-api.nasa.gov/search?nasa_id=${nasa_id}`)
       .then((res) => res.data)
       .then((data) => {
+        console.log(data);
         return {
           photographer: data.collection.items[0].data[0].photographer,
           title: data.collection.items[0].data[0].title,
@@ -120,14 +133,14 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className='App'>
         <Fragment>
           <Navbar />
-          <div className="container">
+          <div className='container'>
             <Switch>
               <Route
                 exact
-                path="/space-project"
+                path='/space-project'
                 render={(props) => (
                   <Fragment>
                     <Imageofday
@@ -142,19 +155,23 @@ function App() {
               ></Route>
               <Route
                 exact
-                path="/space-project/mars-weather"
+                path='/space-project/mars-weather'
                 render={(props) => (
-                  <Marsweatherfinder marsload={marsload} weekinfo={weekinfo} />
+                  <Marsweatherfinder
+                    marsload={marsload}
+                    weekinfo={weekinfo}
+                    {...props}
+                  />
                 )}
               ></Route>
               <Route
                 exact
-                path="/space-project/natural-event"
+                path='/space-project/natural-event'
                 component={Naturaleventfinder}
               ></Route>
               <Route
                 exact
-                path="/space-project/gallery/:imgid"
+                path='/space-project/gallery/:imgid'
                 render={(props) => (
                   <Nasaimg
                     {...props}
@@ -166,7 +183,7 @@ function App() {
               ></Route>
               <Route
                 exact
-                path="/space-project/gallery"
+                path='/space-project/gallery'
                 render={(props) => {
                   return (
                     <Galleryhome
@@ -180,7 +197,7 @@ function App() {
                   );
                 }}
               ></Route>
-              <Route exact path="/space-project/about" component={About} />
+              <Route exact path='/space-project/about' component={About} />
             </Switch>
           </div>
         </Fragment>

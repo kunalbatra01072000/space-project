@@ -1,57 +1,52 @@
-import React, { Fragment, useState, useEffect, useRef } from "react";
-import Eventcard from "./Eventcard";
-import Spinner from "../Layout/Spinner";
-import axios from "axios";
-import earthquakeImg from "./img/earthquake.png";
-import volcano from "./img/volcano.png";
-import fire from "./img/fire.png";
-import flood from "./img/flood.png";
-import storm from "./img/lightning-bolt.png";
+import React, { Fragment, useState, useEffect } from 'react';
+import Eventcard from './Eventcard';
+import Spinner from '../Layout/Spinner';
+import axios from 'axios';
+import earthquakeImg from './img/earthquake.png';
+import volcano from './img/volcano.png';
+import fire from './img/fire.png';
+import flood from './img/flood.png';
+import storm from './img/lightning-bolt.png';
+import Map2 from '../Map/Map2';
+
 const Naturaleventfinder = () => {
   const [events, setevents] = useState([]);
   const [eventload, seteventload] = useState(false);
-  const [nodatfetch, setnodatfetch] = useState(false);
-  const [logo, setlogo] = useState("");
-  const mounted = useRef();
+  const [logo, setlogo] = useState('');
+  const [eventName, seteventName] = useState('wildfires');
+  const [showMap, setshowMap] = useState(false);
 
-  const logodecider = (eventName) => {
-    switch (eventName) {
-      case "volcanoes":
+  const logodecider = (ename) => {
+    switch (ename) {
+      case 'volcanoes':
         return volcano;
-      case "wildfires":
+      case 'wildfires':
         return fire;
-      case "earthquakes":
+      case 'earthquakes':
         return earthquakeImg;
-      case "severeStorms":
+      case 'severeStorms':
         return storm;
-      case "floods":
+      case 'floods':
         return flood;
       default:
-        return "";
+        return '';
     }
   };
 
-  useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-    } else {
-      if (events.length === 0) {
-        setnodatfetch(true);
-      } else {
-        setnodatfetch(false);
-      }
-    }
-  }, [events]);
-
-  const eventfinder = async (e) => {
+  const eventfinder = async (ename = 'wildfires') => {
     seteventload(true);
-    let Eventname = e.target.name;
+    seteventName(ename);
     const res = await axios.get(
-      `https://eonet.sci.gsfc.nasa.gov/api/v3/categories/${Eventname}`
+      `https://eonet.sci.gsfc.nasa.gov/api/v3/categories/${ename}`
     );
 
-    setevents(
-      res.data.events.map((info) => {
+    const enames = res.data.events
+      .filter(
+        (info) =>
+          !isNaN(info.geometry[0].coordinates[0]) &&
+          !isNaN(info.geometry[0].coordinates[1])
+      )
+      .map((info) => {
         return {
           title: info.title,
           category: info.categories[0].title,
@@ -60,87 +55,121 @@ const Naturaleventfinder = () => {
           magnunit: info.geometry[0].magnitudeUnit,
           magnval: info.geometry[0].magnitudeValue,
           closed: info.closed,
+          lat: info.geometry[0].coordinates[1],
+          lng: info.geometry[0].coordinates[0],
         };
-      })
-    );
+      });
 
-    setlogo(logodecider(Eventname));
+    setevents(enames);
+
+    setlogo(logodecider(ename));
     seteventload(false);
   };
 
-  const eventBtns = (
-    <Fragment>
-      <div className="event-selector">
-        <button
-          className="event-btn btn btn-dark"
-          onClick={eventfinder}
-          name="wildfires"
-        >
-          Wildfires
-        </button>
-        <button
-          className="event-btn btn btn-dark"
-          name="volcanoes"
-          onClick={eventfinder}
-        >
-          Volcanoes
-        </button>
-        <button
-          className="event-btn btn btn-dark"
-          name="severeStorms"
-          onClick={eventfinder}
-        >
-          Storms
-        </button>
-        <button
-          className="event-btn  btn btn-dark"
-          name="earthquakes"
-          onClick={eventfinder}
-        >
-          Earthquakes
-        </button>
+  useEffect(() => {
+    eventfinder();
+    // eslint-disable-next-line
+  }, []);
 
-        <button
-          className="event-btn btn btn-dark"
-          name="floods"
-          onClick={eventfinder}
-        >
-          Floods
-        </button>
-        <button
-          className="event-btn btn btn-dark"
-          name="dustHaze"
-          onClick={eventfinder}
-        >
-          Dust Haze
-        </button>
-      </div>
-    </Fragment>
+  const onClick = (e) => {
+    setshowMap((show) => !show);
+  };
+
+  const eventBtns = (
+    <div className='event-selector'>
+      <button
+        className='event-btn btn btn-dark'
+        onClick={(e) => eventfinder(e.target.name)}
+        name='wildfires'
+      >
+        Wildfires
+      </button>
+      <button
+        className='event-btn btn btn-dark'
+        name='volcanoes'
+        onClick={(e) => eventfinder(e.target.name)}
+      >
+        Volcanoes
+      </button>
+      <button
+        className='event-btn btn btn-dark'
+        name='severeStorms'
+        onClick={(e) => eventfinder(e.target.name)}
+      >
+        Storms
+      </button>
+      <button
+        className='event-btn  btn btn-dark'
+        name='earthquakes'
+        onClick={(e) => eventfinder(e.target.name)}
+      >
+        Earthquakes
+      </button>
+
+      <button
+        className='event-btn btn btn-dark'
+        name='floods'
+        onClick={(e) => eventfinder(e.target.name)}
+      >
+        Floods
+      </button>
+      <button
+        className='event-btn btn btn-dark'
+        name='dustHaze'
+        onClick={(e) => eventfinder(e.target.name)}
+      >
+        Dust Haze
+      </button>
+    </div>
   );
 
-  if (eventload) {
-    return (
-      <Fragment>
-        {eventBtns}
+  return (
+    <Fragment>
+      {showMap ? (
+        <Fragment>
+          <button
+            className='btn btn-block btn-light my-1'
+            onClick={(e) => onClick(e)}
+          >
+            {' '}
+            Go back
+          </button>
 
-        <Spinner />
-      </Fragment>
-    );
-  } else {
-    return (
-      <Fragment>
-        {eventBtns}
-        {nodatfetch && <div>No natural events found</div>}
-        {events && (
-          <div className="Events-block">
-            {events.map((event) => (
-              <Eventcard key={event.id} event={event} logo={logo} />
-            ))}
-          </div>
-        )}
-      </Fragment>
-    );
-  }
+          <Map2 eventName={eventName} logo={logo} eventData={events} />
+        </Fragment>
+      ) : (
+        <Fragment>
+          {eventBtns}
+          {eventload ? (
+            <Spinner />
+          ) : (
+            <Fragment>
+              {events.length > 0 && (
+                <button
+                  className='btn btn-block btn-success my-3'
+                  onClick={(e) => onClick(e)}
+                >
+                  Show on Map
+                </button>
+              )}
+
+              {events.length === 0 && (
+                <button className='btn btn-block btn-light my-3' disabled>
+                  No such events found!
+                </button>
+              )}
+
+              <div className='Events-block'>
+                {events.map((event) => (
+                  <Eventcard key={event.id} event={event} logo={logo} />
+                ))}
+              </div>
+            </Fragment>
+          )}{' '}
+        </Fragment>
+      )}
+    </Fragment>
+  );
 };
 
 export default Naturaleventfinder;

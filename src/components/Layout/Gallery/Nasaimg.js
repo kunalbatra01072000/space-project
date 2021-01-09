@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import Spinner from "../Spinner";
+import React, { useEffect } from 'react';
+import Spinner from '../Spinner';
 const Nasaimg = ({ nasaimginfo, getnasaimginfo, match, nasaimginfoload }) => {
   useEffect(() => {
-    console.log(match.params.imgid);
     getnasaimginfo(match.params.imgid);
     // eslint-disable-next-line
   }, []);
@@ -11,13 +10,13 @@ const Nasaimg = ({ nasaimginfo, getnasaimginfo, match, nasaimginfoload }) => {
     return <Spinner />;
   } else {
     return (
-      <div className="container card  gallery-item" style={{ padding: "1rem" }}>
+      <div className='container card  gallery-item' style={{ padding: '1rem' }}>
         <img
           src={nasaimginfo.imgurl}
-          style={{ width: "400px", height: "400px", margin: "10px 50px" }}
-          alt="img.."
+          style={{ width: '400px', height: '400px', margin: '10px 50px' }}
+          alt='img..'
         ></img>
-        <div>
+        <div style={{ width: '100%' }}>
           <h1>{nasaimginfo.title}</h1>
           {nasaimginfo.photographer && (
             <h3>Photographer: {nasaimginfo.photographer}</h3>

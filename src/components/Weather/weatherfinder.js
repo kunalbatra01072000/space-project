@@ -4,7 +4,7 @@ import Weatherui from "./weatherui";
 
 const Weatherfinder = () => {
   const [Weat, setWeat] = useState({});
-  const [loadweather, setloadweather] = useState(false);
+  const [loadweather, setloadweather] = useState(true);
   const [error, seterror] = useState("");
   const [showui, setshowui] = useState(false);
   const onClick = (e) => {
@@ -16,9 +16,9 @@ const Weatherfinder = () => {
     }
   };
 
-  const getlocation = () => {
+  const getlocation = async () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(getweather, showerror);
+      await navigator.geolocation.getCurrentPosition(getweather, showerror);
     } else {
       seterror("Problem encountered");
     }
