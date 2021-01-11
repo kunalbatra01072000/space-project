@@ -1,18 +1,21 @@
-import React, { useState } from "react";
-import axios from "axios";
-import Weatherui from "./weatherui";
+import React, { useState } from 'react';
+import axios from 'axios';
+import Weatherui from './weatherui';
 
 const Weatherfinder = () => {
   const [Weat, setWeat] = useState({});
-  const [loadweather, setloadweather] = useState(true);
-  const [error, seterror] = useState("");
+  const [loadweather, setloadweather] = useState(false);
+  const [error, seterror] = useState('');
   const [showui, setshowui] = useState(false);
   const onClick = (e) => {
     if (showui === false) {
       getlocation();
       setshowui(true);
     } else {
+      setWeat({});
       setshowui(false);
+      seterror('');
+      setloadweather(false);
     }
   };
 
@@ -20,7 +23,7 @@ const Weatherfinder = () => {
     if (navigator.geolocation) {
       await navigator.geolocation.getCurrentPosition(getweather, showerror);
     } else {
-      seterror("Problem encountered");
+      seterror('Problem encountered');
     }
   };
 
@@ -31,7 +34,7 @@ const Weatherfinder = () => {
     const res = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=66aec471ccd8d0cd8b17afc9e9c01be2`
     );
-
+    console.log(res.data);
     setWeat({
       mintemp: res.data.main.temp_min,
       maxtemp: res.data.main.temp_max,
@@ -49,18 +52,19 @@ const Weatherfinder = () => {
   };
 
   const showerror = (error) => {
+    setloadweather(false);
     seterror(error.message);
     // console.log(error);
   };
 
   return (
-    <div style={{ borderTop: "3px solid #333" }}>
+    <div style={{ borderTop: '3px solid #333' }}>
       <button
-        type="submit"
-        className="btn btn-dark btn-block my-3"
+        type='submit'
+        className='btn btn-dark btn-block my-3'
         onClick={onClick}
       >
-        {showui === true ? "Clear" : "Get the weather updates"}
+        {showui === true ? 'Clear' : 'Get the weather updates'}
       </button>
       {showui && (
         <Weatherui
