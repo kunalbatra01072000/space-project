@@ -8,7 +8,7 @@ const Marsweatherfinder = ({ marsload, weekinfo }) => {
   } else {
     return (
       <div className='mars-weather-cards'>
-        {weekinfo.map((dayinfo, idx) => (
+        {weekinfo.map((dayinfo) => (
           <Weathercard key={dayinfo.sol} dayinfo={dayinfo} />
         ))}
       </div>

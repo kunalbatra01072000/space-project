@@ -38,19 +38,40 @@ function App() {
     const res = await axios.get(
       `https://api.nasa.gov/insight_weather/?api_key=xRA5gFNAPdDB04reIimmetg6Of4zJXoCm9ycjoVZ&feedtype=json&ver=1.0`
     );
+    console.log(res.data);
     const { sol_keys } = res.data;
     // console.log(arr);
     const arr = sol_keys.map((sk) => {
-      const { PRE, Season } = res.data[sk];
+      const { Season } = res.data[sk];
+      const PRE = res.data[sk].PRE;
+      const AT = res.data[sk].AT;
+      let Pavg, Pmin, Pmax, Tavg, Tmin, Tmax;
+      if (!PRE) {
+        Pavg = Pmin = Pmax = undefined;
+      } else {
+        Pavg = PRE.av;
+        Pmin = PRE.mn;
+        Pmax = PRE.mx;
+      }
+      if (!AT) {
+        Tavg = Tmin = Tmax = undefined;
+      } else {
+        Tavg = AT.av;
+        Tmin = AT.mn;
+        Tmax = AT.mx;
+      }
       return {
         season: Season,
         sol: sk,
-        Pavg: PRE.av,
-        Pmin: PRE.mn,
-        Pmax: PRE.mx,
+        Pavg,
+        Pmin,
+        Pmax,
+        Tmin,
+        Tavg,
+        Tmax,
       };
     });
-
+    console.log(arr);
     setweekinfo(arr);
 
     // setweekinfo(
