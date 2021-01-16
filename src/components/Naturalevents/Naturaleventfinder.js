@@ -36,34 +36,41 @@ const Naturaleventfinder = () => {
   const eventfinder = async (ename = 'wildfires') => {
     seteventload(true);
     seteventName(ename);
-    const res = await axios.get(
-      `https://eonet.sci.gsfc.nasa.gov/api/v3/categories/${ename}`
-    );
 
-    const enames = res.data.events
-      .filter(
-        (info) =>
-          !isNaN(info.geometry[0].coordinates[0]) &&
-          !isNaN(info.geometry[0].coordinates[1])
-      )
-      .map((info) => {
-        return {
-          title: info.title,
-          category: info.categories[0].title,
-          id: info.id,
-          date: new Date(info.geometry[0].date).toDateString(),
-          magnunit: info.geometry[0].magnitudeUnit,
-          magnval: info.geometry[0].magnitudeValue,
-          closed: info.closed,
-          lat: info.geometry[0].coordinates[1],
-          lng: info.geometry[0].coordinates[0],
-        };
-      });
+    try {
+      const res = await axios.get(
+        `https://eonet.sci.gsfc.nasa.gov/api/v3/categories/${ename}`
+      );
 
-    setevents(enames);
+      const enames = res.data.events
+        .filter(
+          (info) =>
+            !isNaN(info.geometry[0].coordinates[0]) &&
+            !isNaN(info.geometry[0].coordinates[1])
+        )
+        .map((info) => {
+          return {
+            title: info.title,
+            category: info.categories[0].title,
+            id: info.id,
+            date: new Date(info.geometry[0].date).toDateString(),
+            magnunit: info.geometry[0].magnitudeUnit,
+            magnval: info.geometry[0].magnitudeValue,
+            closed: info.closed,
+            lat: info.geometry[0].coordinates[1],
+            lng: info.geometry[0].coordinates[0],
+          };
+        });
 
-    setlogo(logodecider(ename));
-    seteventload(false);
+      setevents(enames);
+
+      setlogo(logodecider(ename));
+      seteventload(false);
+    } catch (err) {
+      setevents([]);
+      seteventload(false);
+      console.log(err);
+    }
   };
 
   useEffect(() => {

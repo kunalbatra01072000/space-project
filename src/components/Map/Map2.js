@@ -2,7 +2,7 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
 
-const Map2 = ({ eventName, logo, eventData }) => {
+const Map2 = ({ logo, eventData }) => {
   const pointerIcon = new Icon({
     iconUrl: logo,
     iconSize: [25, 25],
@@ -38,7 +38,7 @@ const Map2 = ({ eventName, logo, eventData }) => {
 
   return (
     <div className='map'>
-      <MapContainer center={[51.505, -0.09]} zoom={3} scrollWheelZoom={false}>
+      <MapContainer center={center} zoom={3} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'

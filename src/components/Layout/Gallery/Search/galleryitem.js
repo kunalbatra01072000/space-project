@@ -1,19 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Galleryitem = ({ imginfo }) => {
   return (
-    <div className="card text-center">
+    <div className='card text-center'>
       <img
         src={imginfo.imgurl}
-        alt="search_img"
-        style={{ maxHeight: "300px" }}
+        alt='search_img'
+        style={{ maxHeight: '300px' }}
       ></img>
+
       <strong>{imginfo.imgtitle}</strong>
       <div>
         <Link
           to={`/space-project/gallery/${imginfo.imgid}`}
-          className="btn btn-dark my-1 btn-sm"
+          className='btn btn-dark my-1 btn-sm'
         >
           More Info
         </Link>

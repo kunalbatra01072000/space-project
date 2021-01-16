@@ -413,7 +413,7 @@ button {
   margin-top: 60px;
 }
 /* Mobile Styles */
-@media (max-width: 800px) {
+@media (max-width: 821px) {
   .hide-sm {
     display: none;
   }
@@ -479,7 +479,7 @@ button {
   width: 100%;
   height: 80vh;
   position: relative;
-  margin: 0 auto;
+  margin: 3rem auto;
 }
 
 .location-icon {
